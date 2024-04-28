@@ -4833,7 +4833,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxParticles: 100
-  smoothStopDuration: 3
+  smoothStopDuration: 0.25
 --- !u!1 &1770456386
 GameObject:
   m_ObjectHideFlags: 0
@@ -14343,7 +14343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxParticles: 100
-  smoothStopDuration: 3
+  smoothStopDuration: 0.25
 --- !u!1 &4138760362396129063
 GameObject:
   m_ObjectHideFlags: 0
@@ -14376,7 +14376,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxParticles: 100
-  smoothStopDuration: 3
+  smoothStopDuration: 0.25
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

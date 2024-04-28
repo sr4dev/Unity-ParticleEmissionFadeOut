@@ -1,3 +1,4 @@
+using System;
 using System.Buffers;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ public class ParticleEmissionController : MonoBehaviour
     #region inspector
 
     public int maxParticles = 100;
-    public float smoothStopDuration = 3.0f;
+    public float smoothStopDuration = 0.25f;
 
     #endregion
     
@@ -57,10 +58,13 @@ public class ParticleEmissionController : MonoBehaviour
         _particleSystems = GetComponentsInChildren<ParticleSystem>();
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        if (_stoppedTime == 0) return;
-        if (_stoppedTime + smoothStopDuration < Time.time) return;
+        Play();
+    }
+
+    private void LateUpdate()
+    {
         if (_remainingParticles == null) return;
         
         var elapsedTime = Time.time - _stoppedTime;
@@ -74,10 +78,8 @@ public class ParticleEmissionController : MonoBehaviour
             for (var i = 0; i < count; i++)
             {
                 var remainingParticle = _remainingParticles[i];
-                var remainingLifetime = remainingParticle.remainingLifetime;
-                var newLifetime = remainsRate * remainingLifetime;
-                
-                _remainingParticles[i].remainingLifetime = newLifetime;
+                var newLifetime = remainsRate * remainingParticle.startLifetime;
+                _remainingParticles[i].remainingLifetime = Mathf.Min(remainingParticle.remainingLifetime,  newLifetime);
             }
             
             ps.SetParticles(_remainingParticles, count);
@@ -86,9 +88,7 @@ public class ParticleEmissionController : MonoBehaviour
         
         if (totalCount == 0)
         {
-            _stoppedTime = 0;
-            ArrayPool<ParticleSystem.Particle>.Shared.Return(_remainingParticles);
-            _remainingParticles = null;
+            ResetStop();
         }
     }
 
